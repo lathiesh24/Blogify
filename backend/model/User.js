@@ -1,20 +1,23 @@
-import express from "express";
-import {
-  addBlog,
-  deleteBlog,
-  getAllBlogs,
-  getById,
-  getByUserId,
-  updateBlog,
-} from "../controllers/blog-controller";
-const blogRouter = express.Router();
+import mongoose from "mongoose";
 
-blogRouter.get("/", getAllBlogs);
-blogRouter.post("/add", addBlog);
-blogRouter.put("/update/:id", updateBlog);
-blogRouter.get("/:id", getById);
-blogRouter.delete("/:id", deleteBlog);
-blogRouter.get("/user/:id", getByUserId);
+const Schema = mongoose.Schema;
 
-export default blogRouter;
-Foot;
+const userSchema = new Schema({
+  name: {
+    type: String,
+    required: true,
+  },
+  email: {
+    type: String,
+    required: true,
+    unique: true,
+  },
+  password: {
+    type: String,
+    required: true,
+    minlength: 6,
+  },
+  blogs: [{ type: mongoose.Types.ObjectId, ref: "Blog", required: true }],
+});
+export default mongoose.model("User", userSchema);
+// users
